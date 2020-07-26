@@ -1,5 +1,3 @@
-// +build e2e
-
 /*
 Copyright 2020 Tekton Authors LLC
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,6 +23,8 @@ that contains initialized clients for accessing:
 package test
 
 import (
+	"io/ioutil"
+	"path/filepath"
 	"testing"
 
 	"github.com/tektoncd/pipeline/pkg/names"
@@ -75,6 +75,8 @@ func setup(t *testing.T) (*clients, string, func()) {
 	c := newClients(t, knativetest.Flags.Kubeconfig, knativetest.Flags.Cluster)
 	createNamespace(t, namespace, c.KubeClient)
 
+	setupSecret(t, c.KubeClient)
+
 	var cleanup = func() {
 		t.Logf("Deleting namespace %s", namespace)
 		if err := c.KubeClient.CoreV1().Namespaces().Delete(namespace, &metav1.DeleteOptions{}); err != nil {
@@ -93,5 +95,28 @@ func createNamespace(t *testing.T, namespace string, kubeClient kubernetes.Inter
 		},
 	}); err != nil {
 		t.Fatalf("Failed to create namespace %s for tests: %s", namespace, err)
+	}
+}
+
+func setupSecret(t *testing.T, c kubernetes.Interface) {
+	// Only overwrite the secret data if it isn't set.
+
+	s := corev1.Secret{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      "signing-secrets",
+			Namespace: "tekton-pipelines",
+		},
+		StringData: map[string]string{},
+	}
+	paths := []string{"pgp.private-key", "pgp.passphrase", "pgp.public-key"}
+	for _, p := range paths {
+		b, err := ioutil.ReadFile(filepath.Join("./testdata", p))
+		if err != nil {
+			t.Error(err)
+		}
+		s.StringData[p] = string(b)
+	}
+	if _, err := c.CoreV1().Secrets("tekton-pipelines").Update(&s); err != nil {
+		t.Error(err)
 	}
 }
