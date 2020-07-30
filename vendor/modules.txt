@@ -3,6 +3,7 @@
 cloud.google.com/go
 cloud.google.com/go/compute/metadata
 cloud.google.com/go/container/apiv1
+cloud.google.com/go/containeranalysis/apiv1beta1
 cloud.google.com/go/iam
 cloud.google.com/go/internal
 cloud.google.com/go/internal/optional
@@ -358,6 +359,19 @@ google.golang.org/genproto/googleapis/api/metric
 google.golang.org/genproto/googleapis/api/monitoredres
 google.golang.org/genproto/googleapis/container/v1
 google.golang.org/genproto/googleapis/devtools/cloudtrace/v2
+google.golang.org/genproto/googleapis/devtools/containeranalysis/v1beta1
+google.golang.org/genproto/googleapis/devtools/containeranalysis/v1beta1/attestation
+google.golang.org/genproto/googleapis/devtools/containeranalysis/v1beta1/build
+google.golang.org/genproto/googleapis/devtools/containeranalysis/v1beta1/common
+google.golang.org/genproto/googleapis/devtools/containeranalysis/v1beta1/cvss
+google.golang.org/genproto/googleapis/devtools/containeranalysis/v1beta1/deployment
+google.golang.org/genproto/googleapis/devtools/containeranalysis/v1beta1/discovery
+google.golang.org/genproto/googleapis/devtools/containeranalysis/v1beta1/grafeas
+google.golang.org/genproto/googleapis/devtools/containeranalysis/v1beta1/image
+google.golang.org/genproto/googleapis/devtools/containeranalysis/v1beta1/package
+google.golang.org/genproto/googleapis/devtools/containeranalysis/v1beta1/provenance
+google.golang.org/genproto/googleapis/devtools/containeranalysis/v1beta1/source
+google.golang.org/genproto/googleapis/devtools/containeranalysis/v1beta1/vulnerability
 google.golang.org/genproto/googleapis/iam/v1
 google.golang.org/genproto/googleapis/monitoring/v3
 google.golang.org/genproto/googleapis/rpc/code

@@ -14,6 +14,8 @@ limitations under the License.
 package signing
 
 import (
+	"fmt"
+
 	"github.com/hashicorp/go-multierror"
 	"github.com/tektoncd/chains/pkg/artifacts"
 	"github.com/tektoncd/chains/pkg/config"
@@ -59,6 +61,7 @@ func IsSigned(tr *v1beta1.TaskRun) bool {
 // MarkSigned marks a TaskRun as signed.
 func MarkSigned(tr *v1beta1.TaskRun, ps versioned.Interface) error {
 	// Use patch instead of update to help prevent race conditions.
+	fmt.Println("MARKING SIGNED")
 	patchBytes, err := patch.GetAnnotationsPatch(map[string]string{
 		ChainsAnnotation: "true",
 	})

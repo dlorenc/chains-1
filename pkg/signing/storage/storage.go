@@ -15,6 +15,7 @@ package storage
 
 import (
 	"github.com/tektoncd/chains/pkg/config"
+	"github.com/tektoncd/chains/pkg/signing/storage/containeranalysis"
 	"github.com/tektoncd/chains/pkg/signing/storage/gcs"
 	"github.com/tektoncd/chains/pkg/signing/storage/tekton"
 	"github.com/tektoncd/pipeline/pkg/apis/pipeline/v1beta1"
@@ -33,6 +34,15 @@ func InitializeBackends(ps versioned.Interface, logger *zap.SugaredLogger, tr *v
 	// Add an entry here for every configured backend
 	configuredBackends := map[string]struct{}{}
 	configuredBackends[cfg.Artifacts.TaskRuns.StorageBackend] = struct{}{}
+	backends := []Backend{}
+
+	// Add one entry here for every storage backend type.
+	backends = append(backends, tekton.NewStorageBackend(ps, logger, tr))
+	ca, err := containeranalysis.NewStorageBackend(ps, logger, tr)
+	if err != nil {
+		panic(err)
+	}
+	backends = append(backends, ca)
 
 	// Now only initialize and return the configured ones.
 	backends := []Backend{}

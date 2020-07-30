@@ -22,6 +22,7 @@ import (
 	informers "github.com/tektoncd/pipeline/pkg/client/listers/pipeline/v1beta1"
 	"go.uber.org/zap"
 	"k8s.io/apimachinery/pkg/api/errors"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/tools/cache"
 )
@@ -70,7 +71,8 @@ func (r *Reconciler) Reconcile(ctx context.Context, key string) error {
 		return nil
 	}
 	// Get the TaskRun resource with this namespace/name
-	tr, err := r.TaskRunLister.TaskRuns(namespace).Get(name)
+	// We have to fetch the actual, updated resource here. We might have a stale one.
+	tr, err := r.PipelineClientSet.TektonV1beta1().TaskRuns(namespace).Get(name, metav1.GetOptions{})
 	if errors.IsNotFound(err) {
 		// The resource no longer exists, in which case we stop processing.
 		r.Logger.Infof("task run %q in work queue no longer exists", key)

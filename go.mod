@@ -17,7 +17,7 @@ require (
 	golang.org/x/tools v0.0.0-20200804234916-fec4f28ebb08 // indirect
 	golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1 // indirect
 	google.golang.org/api v0.30.0 // indirect
-	google.golang.org/genproto v0.0.0-20200804151602-45615f50871c // indirect
+	google.golang.org/genproto v0.0.0-20200804151602-45615f50871c
 	honnef.co/go/tools v0.0.1-2020.1.5 // indirect
 	k8s.io/api v0.17.6
 	k8s.io/apimachinery v0.17.6
