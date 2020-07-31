@@ -49,7 +49,7 @@ func NewStorageBackend(ps versioned.Interface, logger *zap.SugaredLogger, tr *v1
 }
 
 // StorePayload implements the Payloader interface.
-func (b *Backend) StorePayload(signed []byte, signature string, payloadType formats.PayloadType) error {
+func (b *Backend) StorePayload(signed []byte, signature string, signableType string, payloadType formats.PayloadType) error {
 	b.logger.Infof("Storing payload type %s on TaskRun %s/%s", payloadType, b.tr.Namespace, b.tr.Name)
 
 	// Use patch instead of update to prevent race conditions.

@@ -20,8 +20,12 @@ type Tekton struct {
 }
 
 // CreatePayload implements the Payloader interface.
-func (i *Tekton) CreatePayload(tr *v1beta1.TaskRun) (interface{}, error) {
-	return tr.Status, nil
+func (i *Tekton) CreatePayload(obj interface{}) interface{} {
+	switch v := obj.(type) {
+	case v1beta1.TaskRun:
+		return v.Status
+	}
+	return obj
 }
 
 func (i *Tekton) Type() PayloadType {
